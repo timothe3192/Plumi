@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function(){
 })
 
 {
-	"exercice": [
+	"exercice": 	[
 		{
 			"question":
 				[
