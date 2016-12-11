@@ -4,4 +4,4 @@ require_once "templates/header.php";
 require_once "templates/footer.php";
 ?>
 
-<button type="button" class="">Commencer un exercice</button>
+<button type="button" class="test">Commencer un exercice</button>

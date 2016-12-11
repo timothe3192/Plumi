@@ -1,6 +1,4 @@
 <?php require_once "requests/config.php"; ?>
-<?php require_once "templates/header.php" ?>
-<?php require_once "templates/footer.php" ?>
 
 <?php
 
@@ -28,21 +26,32 @@
 	$query = $pdo->query('SELECT * FROM answers WHERE q_id = 1 ORDER BY RAND() LIMIT 10');
 	$answers_bdd = $query->fetchAll();
 	
-	foreach ($questions as $key => $value) {
-		echo '{"exercice":[{"question":[{"question_info":';
-		echo json_encode($value);
-	}
-	foreach ($answers as $key => $value) {
-		echo ',"reponse":[';
-		echo json_encode($value);
-	}
-	foreach ($totalRep as $key => $value) {
-		echo '],"totalRep":';
-		echo json_encode($value);
+	function get_data($questions, $answers, $totalRep){
+			echo '{"exercice":[{"question":[';
+		foreach ($questions as $key => $value) {
+			echo '{"question_info":';
+			echo json_encode($value); 
+			echo ',"reponse":[';
+			$jsonans = array();
+			foreach ($answers as $key_2 => $value_2) {
+				if($value_2->q_id == $value->id) {
+					array_push($jsonans, json_encode($value_2));
+				}
+			}
+			$n = count($jsonans);
+				foreach ($jsonans as $key_3 => $value_3) {
+					echo $value_3;
+					if ($key_3 != $n-1){
+						echo (',');
+					}
+				}
+			echo (']}');
+    		if (next($questions)==true){
+    			echo (',');
+    		}
+    	}
+			echo (']}]}');
 	}
 
-// function get_data(){
-	// echo get_data();
-// }
-
+	echo get_data($questions, $answers, $totalRep);
 ?>

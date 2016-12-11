@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function request()
+        {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    session = new Session(JSON.parse(xmlhttp.responseText));
+                    console.log(xmlhttp.responseText);
+                }
+            };
+            xmlhttp.open("GET", "exercice-1.php", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send();
+        }
+
+        var session;
+        var Session = function(resp){
+        this.data = resp;
+        this.lancer_exo = function(exoId, qId)
+        {
+            this.afficher_question(exoId, qId);
+            this.afficher_reponse(exoId, qId);
+        }
+        this.result = new Array();
+        this.qCount = 0;
+        this.rand = 0; //Si la session est random
+        }
+
+        request();
+
+        Session.prototype.afficher_question = function(exoId, qId)
+        {
+            document.getElementById("questionDisplay").innerHTML = this.data.exercice[exoId].question[qId].texte;
+        }
+
+        Session.prototype.clickRep = function(aId, qId, exoId)
+        {
+            if(this.data.exercice[exoId].question[qId].reponse[aId].result == 1)
+            {
+                this.result.push(qId);
+            }
+
+            this.qCount++;
+            //Enlever les event onclick
+            if(qCount == data.totalQ){
+                this.finir();
+            }
+            else
+            {
+            if(!this.random)
+            {
+                if(qId == this.data.exercice[exoId].question.length - 1)
+                        this.lancer_exo(exoId+1,0);
+                }
+                else
+                {
+                    this.lancer_exo(exoId,qId+1);
+                }
+                // else
+                // {
+                //  this.launch_random();
+                // }
+            }
+        }
+    </script>
+</body>
+</html>
